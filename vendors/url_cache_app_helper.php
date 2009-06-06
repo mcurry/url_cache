@@ -11,7 +11,7 @@
  *
  */
 
-class AppHelper extends Helper {
+class UrlCacheAppHelper extends Helper {
   var $_cache = array();
   var $_key = '';
   var $_extras = array();
@@ -49,7 +49,7 @@ class AppHelper extends Helper {
       $keyUrl += $this->_extras;
     }
 
-    $key = md5(serialize($keyUrl));
+    $key = md5(serialize($keyUrl) . $full);
 
     if (!empty($this->_cache[$key])) {
       return $this->_cache[$key];
