@@ -33,4 +33,4 @@ If debug is set to greater than 0 the cache expires in 10 seconds.  With debug a
    I added this option in the event your site has a ton of unique urls don't want to store them all in one giant cache,
    which would need to be loaded each request.
 
-5) When ever you do new builds delete /app/tmp/cache/persistent/cake_core_url_map
+5) When ever you do new builds/update your routes, you can delete /app/tmp/cache/persistent/cake_core_url_map
