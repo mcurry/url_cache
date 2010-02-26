@@ -50,7 +50,7 @@ class UrlCacheAppHelper extends Helper {
     }
 
     $key = md5(serialize($keyUrl) . $full);
-    $key += md5_file(CONFIGS . DS . 'routes.php');
+    $key .= md5_file(CONFIGS . DS . 'routes.php');
 
     if (!empty($this->_cache[$key])) {
       return $this->_cache[$key];
