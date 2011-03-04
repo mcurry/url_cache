@@ -21,11 +21,16 @@ class UrlCacheAppHelper extends Helper {
     parent::__construct();
 
     if (Configure::read('UrlCache.pageFiles')) {
+      $path = "unknown";
+      
       $view =& ClassRegistry::getObject('view');
-      $path = $view->here;
-      if ($this->here == '/') {
-        $path = 'home';
+      if($view) {
+        $path = $view->here;
+        if ($view->here == '/') {
+          $path = 'home';
+        }
       }
+      
       $this->_key = '_' . strtolower(Inflector::slug($path));
     }
 
