@@ -29,8 +29,13 @@ class UrlCacheAppHelper extends Helper {
       $this->_key = '_' . strtolower(Inflector::slug($path));
     }
 
-    $this->_key = 'url_map' . $this->_key;
-    $this->_cache = Cache::read($this->_key, '_cake_core_');
+    if (is_a($this, 'HtmlHelper')) {
+      $this->_key = 'url_map_html' . $this->_key;
+      $this->_cache = Cache::read($this->_key, '_cake_core_');
+    } else if (is_a($this, 'FormHelper')) {
+      $this->_key = 'url_map_form' . $this->_key;
+      $this->_cache = Cache::read($this->_key, '_cake_core_');
+    }
   }
 
   function beforeRender() {
@@ -38,7 +43,7 @@ class UrlCacheAppHelper extends Helper {
   }
 
   function afterLayout() {
-    if (is_a($this, 'HtmlHelper')) {
+    if (!empty($this->_cache) && (is_a($this, 'HtmlHelper') || is_a($this, 'FormHelper'))) {
       Cache::write($this->_key, $this->_cache, '_cake_core_');
     }
   }
@@ -50,13 +55,13 @@ class UrlCacheAppHelper extends Helper {
     }
 
     $key = md5(serialize($keyUrl) . $full);
-    
+
     if(Configure::read('debug')) {
       $key .= 'debug';
     } else {
       $key .= md5_file(CONFIGS . DS . 'routes.php');
     }
-    
+
 
     if (!empty($this->_cache[$key])) {
       return $this->_cache[$key];
